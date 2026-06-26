@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-main: "IBM Plex Sans Arabic", sans-serif;
+  /* main colors */
+  --color-main-bg: #eee;
+
+  /* For the space of the sidebar and nav */
+  --spacing-sidebar: 200px;
+  --spacing-navbar: 50px;
+}
+
+body {
+  font-family: var(--font-main);
+}
+
+* {
+  box-sizing: border-box;
+}

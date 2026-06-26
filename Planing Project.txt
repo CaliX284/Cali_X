@@ -1,0 +1,125 @@
+We Have [4] Main Steps:
+
+FOR DESGIN I will make it by seilf and figma 
+
+{[1]} Gather The App Requerments and Features: 
+
+[1] Responsive Screen 
+[2] Member Mangment => info , add , delete , update
+[3] captain mangment => info , add , delete , update => the price of his subscription
+[4] authenecation => login , logout , sign up , delete user
+[5] dashboard => the Statistics  , The memebers whos should paid  , whos paid , total income , total income with percentage
+[6] Check The receptionist => late or ontime - if late send email to admins
+[7] settings => the price of subscription , percentage of the Administration and changins that 
+[8] account mangment => delete, update 
+[9] the member should has the captain info and info about the member => phone , name , injury , Subscription period
+[10] Page For the member Deatials
+[11] send message when action happend like added memeber , paid or lait for paid
+
+
+
+{[2]} PAGES:
+
+[1] Dashboard
+[2] info Page => inside each captin his memebers - when click of any of them going to
+[3] memeber page    [4] captians page
+[5] settings 
+[6] users page   [7] (Account Page) update the account
+
+
+
+{[3]} Features Category:
+
+[1] ui
+[2] settings
+[3] memebers
+[4] captians
+[5] users
+[6] account
+
+
+{[4]} TechStack
+
+[1] Supabase for backend
+[2] react router
+[3] react Query
+[4] context api
+[5] react hook form
+[6] tailwind
+[7] chackra ui
+[8] react icons
+[9] react hot toast
+[10] Recharts
+
+FOR DEPLOYMENT => netlify
+
+
+
+i will seperate the tables
+
+members
+-------
+id 
+full_name
+withCaption_name
+captain_ID
+phone
+age
+notes
+
+subscription_price 
+
+subscription_start_date date
+subscription_end_date date
+
+payment_status => paid unPaid
+
+last_payment_date
+
+status
+-- active
+-- expired
+
+
+is_frozen boolean
+
+freeze_start_date date
+
+freeze_end_date date
+
+
+captians
+---
+id
+full_name
+phone
+subscription price for one month
+notes
+
+
+
+payments
+--------
+id
+member_id
+amount
+status => late , paid
+paid_at
+reson_paid
+old_end_date
+new_end_date
+
+
+
+settings:
+
+percentage of the gyme
+price of the session
+
+gym_name
+
+telegram_chat_id
+
+renewal_reminder_days
+
+created_at
