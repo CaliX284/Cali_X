@@ -64,3 +64,15 @@ export async function updateCaptain(id, updatedData) {
 
   return data;
 }
+
+// get all members with the captain
+export async function getCaptainMembers(captainId) {
+  const { data, error } = await supabase
+    .from("members_view")
+    .select("*")
+    .eq("captain_id", captainId);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

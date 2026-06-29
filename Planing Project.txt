@@ -5,15 +5,15 @@ FOR DESGIN I will make it by seilf and figma
 {[1]} Gather The App Requerments and Features: 
 
 [1] Responsive Screen 
-[2] Member Mangment => info , add , delete , update
-[3] captain mangment => info , add , delete , update => the price of his subscription
+[2] Member Mangment => info , add , delete , update  تم
+[3] captain mangment => info , add , delete , update => the price of his subscription تم
 [4] authenecation => login , logout , sign up , delete user
 [5] dashboard => the Statistics  , The memebers whos should paid  , whos paid , total income , total income with percentage
 [6] Check The receptionist => late or ontime - if late send email to admins
 [7] settings => the price of subscription , percentage of the Administration and changins that 
 [8] account mangment => delete, update 
-[9] the member should has the captain info and info about the member => phone , name , injury , Subscription period
-[10] Page For the member Deatials
+[9] the member should has the captain info and info about the member => phone , name , injury , Subscription period تم
+[10] Page For the member Deatials تم
 [11] send message when action happend like added memeber , paid or lait for paid
 
 
