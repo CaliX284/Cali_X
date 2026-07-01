@@ -40,14 +40,28 @@ export async function createMember(memberData) {
 }
 
 // Get all Memeber for memeber_view
-export async function getAllMembersView() {
-  const { data, error } = await supabase.from("members_view").select("*"); // النجمة تعني جلب كل الأعمدة
+export async function getAllMembersView(page, pageSize) {
+  let query = supabase.from("members_view").select("*", { count: "exact" });
+
+  //[1] Pagination
+  if (page) {
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
-    throw new Error(error.message);
+    console.error(error);
+    throw new Error("Failed to fetch members");
   }
-  return data;
+
+  return { data, count };
 }
+
+
 
 // update the member data
 export async function updateMember(id, memberData) {

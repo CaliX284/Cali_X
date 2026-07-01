@@ -4,6 +4,7 @@ function Button({
   type,
   design = "primary",
   size = "normal",
+  disabled = false,
 }) {
   // 1. الكلاسات الثابتة اللي بتطبق على كل الزراير
   const baseStyles =
@@ -25,7 +26,8 @@ function Button({
 
   return (
     <button
-      className={`${baseStyles} ${designStyles[design] || designStyles.primary} ${sizeStyles}`}
+      disabled={disabled}
+      className={`${baseStyles} ${designStyles[design] || designStyles.primary} ${sizeStyles} disabled:*:cursor-not-allowed disabled:opacity-50`}
       onClick={onClick}
       type={type || "button"}
     >

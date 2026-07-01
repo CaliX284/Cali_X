@@ -6,6 +6,7 @@ import {
   FaMoneyBillWave,
   FaClipboardList,
 } from "react-icons/fa6";
+import { formatCurrency } from "../../utils/helpers";
 
 const transactionColors = {
   new_member: "border-l-4 border-blue-500 bg-blue-50",
@@ -127,7 +128,7 @@ export default function TransactionCard({ transaction }) {
         <Info
           icon={<FaMoneyBillWave size={8} />}
           title="المبلغ"
-          value={`${amount_paid} جنيه`}
+          value={`${formatCurrency(amount_paid)} جنيه`}
           color="text-gray-800"
         />
 

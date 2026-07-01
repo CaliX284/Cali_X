@@ -6,13 +6,20 @@ import Error from "../../ui/Error";
 import AddMemberButton from "../members/AddMemberButton";
 import { useGetCaptainMembers } from "./useGetCaptainMembers";
 import MemberCard from "../members/MemberCard";
+import Pagination from "../../ui/Pagination";
+import { PAGE_SIZE_CAPTAINS_MEMBERS } from "../../utils/constance";
 
 function CaptainDetArea() {
   const { id } = useParams();
 
   const { captain, isPending, error } = useGetCaptainById(id);
 
-  const { captainMembers, isLoading, error: mError } = useGetCaptainMembers(id);
+  const {
+    captainMembers,
+    isPending: isLoading,
+    error: mError,
+    captainMembersCount,
+  } = useGetCaptainMembers(id);
 
   if (isPending || isLoading) return <Spinner />;
   if (error || mError) return <Error />;
@@ -28,11 +35,15 @@ function CaptainDetArea() {
         <AddMemberButton />
       </div>
       {/* Members Area */}
-      <div className="mt-5 grid grid-cols-1 gap-5 pb-4 md:grid-cols-2 xl:grid-cols-3 ">
-        {captainMembers.map((member) => (
+      <div className="mt-5 grid grid-cols-1 gap-5 pb-4 md:grid-cols-2 xl:grid-cols-3">
+        {captainMembers?.map((member) => (
           <MemberCard key={member.id} member={member} />
         ))}
       </div>
+      <Pagination
+        count={captainMembersCount}
+        pageSize={PAGE_SIZE_CAPTAINS_MEMBERS}
+      />
     </div>
   );
 }
