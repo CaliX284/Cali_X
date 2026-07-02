@@ -17,7 +17,7 @@ export async function createTransaction(transactionData) {
 
 // to get all transactions
 
-export async function getTransactions(page, pageSize) {
+export async function getTransactions(page, pageSize, theFilter) {
   let query = supabase
     .from("transactions")
     .select(
@@ -30,7 +30,12 @@ export async function getTransactions(page, pageSize) {
     )
     .order("paid_at", { ascending: false });
 
-  //[1] Pagination
+  //[1] Filter
+  if (theFilter) {
+    query = query[theFilter.method || "eq"](theFilter.field, theFilter.value);
+  }
+
+  //[2] Pagination
   if (page) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;

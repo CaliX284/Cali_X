@@ -40,10 +40,15 @@ export async function createMember(memberData) {
 }
 
 // Get all Memeber for memeber_view
-export async function getAllMembersView(page, pageSize) {
+export async function getAllMembersView(page, pageSize, theFilter) {
   let query = supabase.from("members_view").select("*", { count: "exact" });
 
-  //[1] Pagination
+  //[1] filter
+  if (theFilter) {
+    query = query[theFilter.method || "eq"](theFilter.field, theFilter.value);
+  }
+
+  //[2] Pagination
   if (page) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
@@ -60,8 +65,6 @@ export async function getAllMembersView(page, pageSize) {
 
   return { data, count };
 }
-
-
 
 // update the member data
 export async function updateMember(id, memberData) {

@@ -1,10 +1,10 @@
 import AddNewTransaction from "../Features/transactions/AddNewTransaction";
-import TransactionsContainer from "../Features/transactions/TransactionContainer";
+import TransactionsMainArea from "../Features/transactions/TransactionsMainArea";
 function Transactions() {
   return (
     <div>
       <AddNewTransaction />
-      <TransactionsContainer />
+      <TransactionsMainArea />
     </div>
   );
 }
