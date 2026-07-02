@@ -1,46 +1,74 @@
 import {
-  FaArrowTrendUp,
   FaArrowTrendDown,
+  FaArrowTrendUp,
+  FaClipboardList,
+  FaMoneyBillWave,
   FaUser,
   FaUserTie,
-  FaMoneyBillWave,
-  FaClipboardList,
 } from "react-icons/fa6";
 import { formatCurrency } from "../../utils/helpers";
 
-const transactionColors = {
-  new_member: "border-l-4 border-blue-500 bg-blue-50",
-  renewal: "border-l-4 border-sky-500 bg-sky-50",
-  debt_payment: "border-l-4 border-emerald-500 bg-emerald-50",
-  session: "border-l-4 border-violet-500 bg-violet-50",
-  salary: "border-l-4 border-orange-500 bg-orange-50",
-  expense: "border-l-4 border-red-500 bg-red-50",
-  product: "border-l-4 border-pink-500 bg-pink-50",
-};
+const transactionConfig = {
+  new_member: {
+    name: "اشتراك جديد",
+    border: "border-orange-500",
+    icon: "text-orange-600",
+    bg: "bg-orange-50",
+  },
 
-const iconColors = {
-  new_member: "text-blue-600",
-  renewal: "text-sky-600",
-  debt_payment: "text-emerald-600",
-  session: "text-violet-600",
-  salary: "text-orange-600",
-  expense: "text-red-600",
-  product: "text-pink-600",
-};
+  renewal: {
+    name: "تجديد اشتراك",
+    border: "border-sky-500",
+    icon: "text-sky-600",
+    bg: "bg-sky-50",
+  },
 
-const transactionNames = {
-  new_member: "اشتراك جديد",
-  renewal: "تجديد اشتراك",
-  debt_payment: "سداد مديونية",
-  session: "حصة",
-  salary: "مرتب",
-  expense: "مصروف",
-  product: "بيع منتج",
+  debt_payment: {
+    name: "سداد مديونية",
+    border: "border-emerald-500",
+    icon: "text-emerald-600",
+    bg: "bg-emerald-50",
+  },
+
+  session: {
+    name: "حصة",
+    border: "border-violet-500",
+    icon: "text-violet-600",
+    bg: "bg-violet-50",
+  },
+
+  salary: {
+    name: "مرتب",
+    border: "border-yellow-500",
+    icon: "text-yellow-600",
+    bg: "bg-yellow-50",
+  },
+
+  expense: {
+    name: "مصروف",
+    border: "border-red-500",
+    icon: "text-red-600",
+    bg: "bg-red-50",
+  },
+
+  product: {
+    name: "بيع منتج",
+    border: "border-pink-500",
+    icon: "text-pink-600",
+    bg: "bg-pink-50",
+  },
 };
 
 export default function TransactionCard({ transaction }) {
-  const { type_transaction, direction, amount_paid, notes, paid_at } =
-    transaction;
+  const {
+    type_transaction,
+    direction,
+    amount_paid,
+    notes,
+    paid_at,
+    captain_amount,
+    gym_amount,
+  } = transaction;
 
   const memberName = transaction.member?.full_name || "غير محدد";
   const captainName = transaction.captain?.full_name || "غير محدد";
@@ -50,109 +78,143 @@ export default function TransactionCard({ transaction }) {
   if (isManual) {
     return (
       <div
-        className={`flex flex-col justify-between gap-1 rounded-md border p-1 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-center sm:gap-1.5 sm:p-1.5 ${
+        className={`rounded-lg border bg-white p-2.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
           direction === "income"
-            ? "border-green-300 bg-green-50"
-            : "border-red-300 bg-red-50"
+            ? "border-l-4 border-l-emerald-500"
+            : "border-l-4 border-l-red-500"
         }`}
       >
-        <div className="flex items-center gap-1">
-          <div
-            className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded text-white sm:h-6 sm:w-6 ${
-              direction === "income" ? "bg-green-500" : "bg-red-500"
-            }`}
-          >
-            {direction === "income" ? (
-              <FaArrowTrendUp size={9} />
-            ) : (
-              <FaArrowTrendDown size={9} />
-            )}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div
+              className={`flex h-7 w-7 items-center justify-center rounded-lg ${
+                direction === "income"
+                  ? "bg-emerald-100 text-emerald-600"
+                  : "bg-red-100 text-red-600"
+              }`}
+            >
+              {direction === "income" ? (
+                <FaArrowTrendUp size={11} />
+              ) : (
+                <FaArrowTrendDown size={11} />
+              )}
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">
+                {direction === "income" ? "إيراد يدوي" : "مصروف يدوي"}
+              </h3>
+
+              <p className="mt-0.5 text-[10px] text-gray-500">
+                {notes || "لا توجد ملاحظات"}
+              </p>
+            </div>
           </div>
 
-          <div className="min-w-0">
-            <h3 className="text-[9px] leading-tight font-semibold sm:text-[11px]">
-              {direction === "income" ? "إضافة إيرادات" : "إضافة مصروف"}
-            </h3>
+          <div className="text-right">
+            <div
+              className={`text-lg font-bold ${
+                direction === "income" ? "text-emerald-600" : "text-red-600"
+              }`}
+            >
+              {formatCurrency(amount_paid)} ج
+            </div>
 
-            <p className="max-w-[90px] truncate text-[7px] leading-tight text-gray-500 sm:max-w-[150px] sm:text-[9px]">
-              {notes}
-            </p>
+            <div className="mt-0.5 text-[9px] text-gray-500">{paid_at}</div>
           </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 sm:gap-x-2.5">
-          <Info
-            title="المبلغ"
-            value={`${amount_paid} جنيه`}
-            icon={<FaMoneyBillWave size={8} />}
-            color={direction === "income" ? "text-green-600" : "text-red-600"}
-          />
-
-          <Info title="التاريخ" value={paid_at} />
         </div>
       </div>
     );
   }
 
+  const config = transactionConfig[type_transaction];
+
   return (
     <div
-      className={`flex flex-col justify-between gap-1 rounded-md border p-1 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md sm:p-1.5 lg:flex-row lg:items-center lg:gap-1.5 ${transactionColors[type_transaction]}`}
+      className={`rounded-lg border border-l-4 border-gray-200 ${config.border} bg-white p-2.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
     >
-      <div className="flex items-center gap-1">
-        <div
-          className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border bg-white sm:h-6 sm:w-6 ${iconColors[type_transaction]}`}
-        >
-          <FaClipboardList size={9} />
+      <div className="flex flex-col gap-2.5 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex gap-2">
+          <div
+            className={`flex h-7 w-7 items-center justify-center rounded-lg ${config.bg}`}
+          >
+            <FaClipboardList className={config.icon} size={11} />
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900">
+              {config.name}
+            </h3>
+
+            <p className="mt-0.5 max-w-md text-[10px] leading-4 text-gray-500">
+              {notes || "لا توجد ملاحظات"}
+            </p>
+          </div>
         </div>
 
-        <div className="min-w-0">
-          <h3 className="text-[9px] leading-tight font-semibold text-gray-800 sm:text-[11px]">
-            {transactionNames[type_transaction]}
-          </h3>
+        <div className="text-right">
+          <div className="text-lg font-bold text-gray-900">
+            {formatCurrency(amount_paid)} ج
+          </div>
 
-          <p className="max-w-[90px] truncate text-[7px] leading-tight text-gray-500 sm:max-w-[150px] sm:text-[9px]">
-            {notes}
-          </p>
+          <div className="mt-0.5 text-[9px] text-gray-500">{paid_at}</div>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 sm:gap-x-2.5">
-        <Info icon={<FaUser size={8} />} title="العضو" value={memberName} />
+      <div className="my-2.5 h-px bg-gray-100" />
+
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <Info icon={<FaUser size={9} />} title="العضو" value={memberName} />
 
         <Info
-          icon={<FaUserTie size={8} />}
+          icon={<FaUserTie size={9} />}
           title="الكابتن"
           value={captainName}
         />
 
         <Info
-          icon={<FaMoneyBillWave size={8} />}
-          title="المبلغ"
-          value={`${formatCurrency(amount_paid)} جنيه`}
-          color="text-gray-800"
+          icon={<FaMoneyBillWave size={9} />}
+          title="نصيب النادي"
+          value={
+            gym_amount != null ? `${formatCurrency(gym_amount)} ج` : "غير متوفر"
+          }
+          color="orange"
         />
 
-        <Info title="التاريخ" value={paid_at} />
+        <Info
+          icon={<FaMoneyBillWave size={9} />}
+          title="نصيب الكابتن"
+          value={
+            captain_amount != null
+              ? `${formatCurrency(captain_amount)} ج`
+              : "غير متوفر"
+          }
+          color="green"
+        />
       </div>
     </div>
   );
 }
 
-function Info({ title, value, icon, color }) {
+function Info({ icon, title, value, color }) {
+  const colors = {
+    orange: "bg-orange-50 border-orange-200 text-orange-700",
+    green: "bg-emerald-50 border-emerald-200 text-emerald-700",
+    default: "bg-slate-50 border-slate-200 text-slate-700",
+  };
+
   return (
-    <div className="min-w-0">
-      <div className="flex items-center gap-0.5 text-[6.5px] text-gray-500 sm:text-[8px]">
+    <div
+      className={`rounded-md border p-2 transition duration-200 hover:shadow-sm ${
+        colors[color] || colors.default
+      }`}
+    >
+      <div className="mb-1 flex items-center gap-1.5 text-[9px] font-medium opacity-70">
         {icon}
         <span>{title}</span>
       </div>
 
-      <div
-        className={`truncate text-[8px] leading-tight font-medium sm:text-[10px] ${
-          color || "text-gray-800"
-        }`}
-      >
-        {value}
-      </div>
+      <div className="truncate text-xs font-bold">{value}</div>
     </div>
   );
 }

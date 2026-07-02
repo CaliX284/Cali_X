@@ -10,7 +10,7 @@ function TransactionContainer() {
   if (error) return <Error />;
   return (
     <>
-      <div className="mt-3 flex flex-col gap-3 p-1">
+      <div className="mt-3 flex flex-col gap-4 p-1">
         {transactions.map((transaction) => (
           <TransactionCard key={transaction.id} transaction={transaction} />
         ))}

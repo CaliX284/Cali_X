@@ -12,8 +12,6 @@ export async function createIncomeTransaction({
 }) {
   // الحصول على إعدادات النظام
   const settings = await getSettings();
-  console.log(settings);
-  console.log(settings.percentage);
 
   if (!settings) throw new Error("Couldn't load settings");
 
