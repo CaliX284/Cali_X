@@ -21,7 +21,15 @@ export function useGetAllMemberViews() {
     };
   }, [filterField, filterValue]);
 
-  //[2] sorting
+  // [2] searhcing
+  const search = searchParams.get("search") ?? "";
+  const [searchField, searchValue] = search.split(":");
+  const theSearch = useMemo(() => {
+    if (searchField.trim() === "") return null;
+    return { field: searchField, value: searchValue, method: "ilike" };
+  }, [searchField, searchValue]);
+
+  //[3] sorting
 
   const sortBy = searchParams.get("sortBy") ?? "created_at-desc";
   const [sortField, sortDirection] = sortBy.split("-");
@@ -30,7 +38,7 @@ export function useGetAllMemberViews() {
     return { field: sortField, dir: sortDirection };
   }, [sortField, sortDirection]);
 
-  //[3] pagination
+  //[4] pagination
   const page = Number(searchParams.get("page")) || 1;
 
   // the main query
@@ -40,9 +48,9 @@ export function useGetAllMemberViews() {
     error,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ["members_view", page, filter, sortBy],
+    queryKey: ["members_view", page, filter, sortBy, search],
     queryFn: () =>
-      getAllMembersView(page, PAGE_SIZE_MEMBERS, theFilter, theSort),
+      getAllMembersView(page, PAGE_SIZE_MEMBERS, theFilter, theSort, theSearch),
     staleTime: 1000 * 60 * 5, // 5 دقائق
     placeholderData: (previousData) => previousData,
   });
@@ -55,9 +63,15 @@ export function useGetAllMemberViews() {
     if (page >= pageCount) return;
 
     queryClient.prefetchQuery({
-      queryKey: ["members_view", page + 1, filter, sortBy],
+      queryKey: ["members_view", page + 1, filter, sortBy, search],
       queryFn: () =>
-        getAllMembersView(page + 1, PAGE_SIZE_MEMBERS, theFilter, theSort),
+        getAllMembersView(
+          page + 1,
+          PAGE_SIZE_MEMBERS,
+          theFilter,
+          theSort,
+          theSearch,
+        ),
       staleTime: 1000 * 60 * 5,
     });
   }, [
@@ -69,6 +83,8 @@ export function useGetAllMemberViews() {
     filter,
     theSort,
     sortBy,
+    theSearch,
+    search,
   ]);
 
   return { membersViews, isPending, error, members_count };

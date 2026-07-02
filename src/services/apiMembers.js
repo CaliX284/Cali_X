@@ -40,7 +40,7 @@ export async function createMember(memberData) {
 }
 
 // Get all Memeber for memeber_view
-export async function getAllMembersView(page, pageSize, theFilter, theSort) {
+export async function getAllMembersView(page, pageSize, theFilter, theSort , theSearch) {
   let query = supabase.from("members_view").select("*", { count: "exact" });
 
   //[1] filter
@@ -48,14 +48,22 @@ export async function getAllMembersView(page, pageSize, theFilter, theSort) {
     query = query[theFilter.method || "eq"](theFilter.field, theFilter.value);
   }
 
-  //[2] sorting
+  // [2] search
+  if (theSearch) {
+    query = query[theSearch.method || "ilike"](
+      theSearch.field,
+      `%${theSearch.value}%`,
+    );
+  }
+
+  //[3] sorting
   if (theSort) {
     query = query.order(theSort.field, {
       ascending: theSort.dir === "asc" ? true : false,
     });
   }
 
-  //[3] Pagination
+  //[4] Pagination
   if (page) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;

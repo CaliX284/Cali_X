@@ -9,6 +9,27 @@ function TransactionsOperations() {
 
   return (
     <div className="my-5 rounded-xl bg-white px-1.5 py-3">
+      <Sort
+        options={[
+          {
+            label: "الأحدث أولاً",
+            value: "created_at-desc",
+          },
+          {
+            label: "الأقدم أولاً",
+            value: "created_at-asc",
+          },
+          {
+            label: "السعر: من الأقل للأعلى",
+            value: "amount_paid-asc",
+          },
+          {
+            label: "السعر: من الأعلى للأقل",
+            value: "amount_paid-desc",
+          },
+        ]}
+      />
+
       <Filter
         nameFilter="transactions"
         values={[
@@ -32,27 +53,6 @@ function TransactionsOperations() {
             label: "الحصص الاضافيه ",
             value: "session",
             field: "type_transaction",
-          },
-        ]}
-      />
-
-      <Sort
-        options={[
-          {
-            label: "الأحدث أولاً",
-            value: "created_at-desc",
-          },
-          {
-            label: "الأقدم أولاً",
-            value: "created_at-asc",
-          },
-          {
-            label: "السعر: من الأقل للأعلى",
-            value: "amount_paid-asc",
-          },
-          {
-            label: "السعر: من الأعلى للأقل",
-            value: "amount_paid-desc",
           },
         ]}
       />
