@@ -1,5 +1,6 @@
 // add new member
 import { supabase } from "./supabase";
+import { createIncomeTransaction } from "./transactionServies";
 
 export async function createMember(memberData) {
   // 1- إضافة العضو
@@ -16,31 +17,26 @@ export async function createMember(memberData) {
 
   // 2- تسجيل أول دفعة في transactions
   if (member.paid_amount > 0) {
-    const { error: transactionError } = await supabase
-      .from("transactions")
-      .insert([
-        {
-          member_id: member.id,
-          captain_id: member.captain_id,
-          type_transaction: "new_member",
-          direction: "income",
-          amount_paid: member.paid_amount,
-          notes: "تسجيل عضو جديد",
-          paid_at: new Date().toISOString(),
-        },
-      ]);
-
-    if (transactionError) {
-      console.error(transactionError);
-      throw new Error("تم إضافة العضو ولكن فشل تسجيل العملية المالية");
-    }
+    await createIncomeTransaction({
+      memberId: member.id,
+      captainId: member.captain_id,
+      type: "new_member",
+      amount: member.paid_amount,
+      notes: "تسجيل عضو جديد",
+    });
   }
 
   return member;
 }
 
 // Get all Memeber for memeber_view
-export async function getAllMembersView(page, pageSize, theFilter, theSort , theSearch) {
+export async function getAllMembersView(
+  page,
+  pageSize,
+  theFilter,
+  theSort,
+  theSearch,
+) {
   let query = supabase.from("members_view").select("*", { count: "exact" });
 
   //[1] filter
@@ -148,22 +144,13 @@ export async function payMember(id, memberData, amountPaid) {
   }
 
   // تسجيل العملية المالية
-  const { error: transactionError } = await supabase
-    .from("transactions")
-    .insert({
-      member_id: id,
-      captain_id: data.captain_id,
-      type_transaction: "debt_payment",
-      direction: "income",
-      amount_paid: amountPaid,
-      notes: "سداد المبلغ المستحق",
-      paid_at: new Date().toISOString(),
-    });
-
-  if (transactionError) {
-    console.error(transactionError);
-    throw new Error("تم تحديث العضو ولكن فشل تسجيل العملية المالية");
-  }
+  await createIncomeTransaction({
+    memberId: id,
+    captainId: data.captain_id,
+    type: "debt_payment",
+    amount: amountPaid,
+    notes: "سداد المبلغ المستحق",
+  });
 
   return data;
 }
@@ -185,24 +172,13 @@ export async function renewMember(id, memberData, amountPaid = 0) {
 
   // 2- تسجيل العملية المالية إذا تم دفع مبلغ
   if (amountPaid > 0) {
-    const { error: transactionError } = await supabase
-      .from("transactions")
-      .insert([
-        {
-          member_id: id,
-          captain_id: data.captain_id,
-          type_transaction: "renewal",
-          direction: "income",
-          amount_paid: amountPaid,
-          notes: "تجديد الاشتراك",
-          paid_at: new Date().toISOString(),
-        },
-      ]);
-
-    if (transactionError) {
-      console.error(transactionError);
-      throw new Error("تم تجديد الاشتراك ولكن فشل تسجيل العملية المالية");
-    }
+    await createIncomeTransaction({
+      memberId: id,
+      captainId: data.captain_id,
+      type: "renewal",
+      amount: amountPaid,
+      notes: "تجديد الاشتراك",
+    });
   }
 
   return data;

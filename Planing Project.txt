@@ -117,6 +117,9 @@ manual
  amount_paid
  notes
  paid_at
+ 
+ captain_amount
+ gym_amount
 
 sessions
 -----
