@@ -21,18 +21,28 @@ export function useGetTransactions() {
     };
   }, [filterField, filterValue]);
 
-  //[2] Pagination
+  // [2] Sorting
+
+  const sortBy = searchParams.get("sortBy") ?? "created_at-desc";
+  const [sortField, sortDirection] = sortBy.split("-");
+
+  const theSort = useMemo(() => {
+    return { field: sortField, dir: sortDirection };
+  }, [sortField, sortDirection]);
+
+  //[3] Pagination
   const page = Number(searchParams.get("page")) || 1;
 
-  //[3] the main query
+  //[4] the main query
   const {
     data: { data: transactions, count } = {},
     isLoading,
     error,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ["transactions", page, filter],
-    queryFn: () => getTransactions(page, PAGE_SIZE_TRANSACTIONS, theFilter),
+    queryKey: ["transactions", page, filter, sortBy],
+    queryFn: () =>
+      getTransactions(page, PAGE_SIZE_TRANSACTIONS, theFilter, theSort),
     staleTime: 1000 * 60 * 5,
     placeholderData: (previousData) => previousData,
   });
@@ -46,12 +56,21 @@ export function useGetTransactions() {
     if (page >= pageCount) return;
 
     queryClient.prefetchQuery({
-      queryKey: ["transactions", page + 1, filter],
+      queryKey: ["transactions", page + 1, filter, sortBy],
       queryFn: () =>
-        getTransactions(page + 1, PAGE_SIZE_TRANSACTIONS, theFilter),
-      staleTime: 60 * 1000,
+        getTransactions(page + 1, PAGE_SIZE_TRANSACTIONS, theFilter, theSort),
+      staleTime: 1000 * 60 * 5,
     });
-  }, [page, pageCount, queryClient, theFilter, filter, isPlaceholderData]);
+  }, [
+    page,
+    pageCount,
+    queryClient,
+    theFilter,
+    filter,
+    isPlaceholderData,
+    sortBy,
+    theSort,
+  ]);
 
   return { transactions, count, isLoading, error };
 }

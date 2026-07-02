@@ -1,4 +1,5 @@
 import Filter from "../../ui/Filter";
+import Sort from "../../ui/Sort";
 import Spinner from "../../ui/Spinner";
 import { useCaptainStats } from "../captains/useCaptainState";
 
@@ -41,6 +42,26 @@ function MemberOperations() {
             label: "عليه مستحقات",
             value: "true",
             field: "has_remaining",
+          },
+        ]}
+      />
+      <Sort
+        options={[
+          {
+            label: "الأحدث أولاً",
+            value: "created_at-desc",
+          },
+          {
+            label: "الأقدم أولاً",
+            value: "created_at-asc",
+          },
+          {
+            label: "السعر: من الأقل للأعلى",
+            value: "subscription_price-asc",
+          },
+          {
+            label: "السعر: من الأعلى للأقل",
+            value: "subscription_price-desc",
           },
         ]}
       />

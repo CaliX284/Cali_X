@@ -40,7 +40,7 @@ export async function createMember(memberData) {
 }
 
 // Get all Memeber for memeber_view
-export async function getAllMembersView(page, pageSize, theFilter) {
+export async function getAllMembersView(page, pageSize, theFilter, theSort) {
   let query = supabase.from("members_view").select("*", { count: "exact" });
 
   //[1] filter
@@ -48,7 +48,14 @@ export async function getAllMembersView(page, pageSize, theFilter) {
     query = query[theFilter.method || "eq"](theFilter.field, theFilter.value);
   }
 
-  //[2] Pagination
+  //[2] sorting
+  if (theSort) {
+    query = query.order(theSort.field, {
+      ascending: theSort.dir === "asc" ? true : false,
+    });
+  }
+
+  //[3] Pagination
   if (page) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;

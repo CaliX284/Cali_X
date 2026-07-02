@@ -17,7 +17,7 @@ export async function createTransaction(transactionData) {
 
 // to get all transactions
 
-export async function getTransactions(page, pageSize, theFilter) {
+export async function getTransactions(page, pageSize, theFilter, theSort) {
   let query = supabase
     .from("transactions")
     .select(
@@ -28,14 +28,21 @@ export async function getTransactions(page, pageSize, theFilter) {
       `,
       { count: "exact" },
     )
-    .order("paid_at", { ascending: false });
+    // .order("paid_at", { ascending: false });
 
   //[1] Filter
   if (theFilter) {
     query = query[theFilter.method || "eq"](theFilter.field, theFilter.value);
   }
 
-  //[2] Pagination
+  //[2] sorting
+  if (theSort) {
+    query = query.order(theSort.field, {
+      ascending: theSort.dir === "asc" ? true : false,
+    });
+  }
+
+  //[3] Pagination
   if (page) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;

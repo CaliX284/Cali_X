@@ -1,15 +1,16 @@
 import Filter from "../../ui/Filter";
 import { useCaptainStats } from "../captains/useCaptainState";
 import Spinner from "../../ui/Spinner";
+import Sort from "../../ui/Sort";
 function TransactionsOperations() {
   const { captainStats, isPending } = useCaptainStats();
 
   if (isPending) return <Spinner />;
 
   return (
-    <div className="mt-7">
+    <div className="my-5 rounded-xl bg-white px-1.5 py-3">
       <Filter
-      nameFilter="transactions"
+        nameFilter="transactions"
         values={[
           { label: "الكل", value: "all", field: "all" },
           { label: "المصروفات", value: "expense", field: "direction" },
@@ -31,6 +32,27 @@ function TransactionsOperations() {
             label: "الحصص الاضافيه ",
             value: "session",
             field: "type_transaction",
+          },
+        ]}
+      />
+
+      <Sort
+        options={[
+          {
+            label: "الأحدث أولاً",
+            value: "created_at-desc",
+          },
+          {
+            label: "الأقدم أولاً",
+            value: "created_at-asc",
+          },
+          {
+            label: "السعر: من الأقل للأعلى",
+            value: "amount_paid-asc",
+          },
+          {
+            label: "السعر: من الأعلى للأقل",
+            value: "amount_paid-desc",
           },
         ]}
       />

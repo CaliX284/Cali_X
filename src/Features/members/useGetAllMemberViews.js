@@ -21,9 +21,16 @@ export function useGetAllMemberViews() {
     };
   }, [filterField, filterValue]);
 
-  console.log(theFilter);
+  //[2] sorting
 
-  //[2] pagination
+  const sortBy = searchParams.get("sortBy") ?? "created_at-desc";
+  const [sortField, sortDirection] = sortBy.split("-");
+
+  const theSort = useMemo(() => {
+    return { field: sortField, dir: sortDirection };
+  }, [sortField, sortDirection]);
+
+  //[3] pagination
   const page = Number(searchParams.get("page")) || 1;
 
   // the main query
@@ -33,8 +40,9 @@ export function useGetAllMemberViews() {
     error,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ["members_view", page, filter],
-    queryFn: () => getAllMembersView(page, PAGE_SIZE_MEMBERS, theFilter),
+    queryKey: ["members_view", page, filter, sortBy],
+    queryFn: () =>
+      getAllMembersView(page, PAGE_SIZE_MEMBERS, theFilter, theSort),
     staleTime: 1000 * 60 * 5, // 5 دقائق
     placeholderData: (previousData) => previousData,
   });
@@ -47,11 +55,21 @@ export function useGetAllMemberViews() {
     if (page >= pageCount) return;
 
     queryClient.prefetchQuery({
-      queryKey: ["members_view", page + 1, filter],
-      queryFn: () => getAllMembersView(page + 1, PAGE_SIZE_MEMBERS, theFilter),
-      staleTime: 60 * 1000,
+      queryKey: ["members_view", page + 1, filter, sortBy],
+      queryFn: () =>
+        getAllMembersView(page + 1, PAGE_SIZE_MEMBERS, theFilter, theSort),
+      staleTime: 1000 * 60 * 5,
     });
-  }, [page, pageCount, queryClient, isPlaceholderData, theFilter, filter]);
+  }, [
+    page,
+    pageCount,
+    queryClient,
+    isPlaceholderData,
+    theFilter,
+    filter,
+    theSort,
+    sortBy,
+  ]);
 
   return { membersViews, isPending, error, members_count };
 }
