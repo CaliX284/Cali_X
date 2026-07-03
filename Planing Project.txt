@@ -156,12 +156,9 @@ Views
 members_view
 captain_stats
 
-dashboard_stats
-dashboard_expiring_members
-dashboard_expired_members
-dashboard_frozen_members
-dashboard_remaining_members
 
+RBC
+get_transaction_stats
 
 
 

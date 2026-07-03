@@ -1,9 +1,8 @@
 import Filter from "../../ui/Filter";
-import TransactionStatsCon from "./TransactionStatsCon";
 
-function TransactionsDashboard() {
+function DashboardFilter() {
   return (
-    <div className="my-5">
+    <div className="my-5 rounded-xl bg-white px-2.5 py-1.5">
       <Filter
         defaultValue={["period", "30"]}
         nameFilter="period"
@@ -24,9 +23,8 @@ function TransactionsDashboard() {
           },
         ]}
       />
-      <TransactionStatsCon />
     </div>
   );
 }
 
-export default TransactionsDashboard;
+export default DashboardFilter;
