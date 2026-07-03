@@ -131,19 +131,19 @@ export default function TransactionCard({ transaction }) {
 
   return (
     <div
-      className={`rounded-lg border border-l-4 border-gray-200 ${config.border} bg-white p-2.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
+      className={`rounded-lg border border-l-4 border-gray-200 ${config?.border} bg-white p-2.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
     >
       <div className="flex flex-col gap-2.5 lg:flex-row lg:items-start lg:justify-between">
         <div className="flex gap-2">
           <div
-            className={`flex h-7 w-7 items-center justify-center rounded-lg ${config.bg}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-lg ${config?.bg}`}
           >
-            <FaClipboardList className={config.icon} size={11} />
+            <FaClipboardList className={config?.icon} size={11} />
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-900">
-              {config.name}
+              {config?.name}
             </h3>
 
             <p className="mt-0.5 max-w-md text-[10px] leading-4 text-gray-500">

@@ -45,7 +45,7 @@ function CaptainBox({ captain }) {
           <div className="mb-2 flex items-center gap-2">
             <FaMoneyBillWave className="text-orange-500" />
             <span className="text-sm font-medium text-orange-600">
-              اجمالي الإيرادات
+              الايراد الشهري
             </span>
           </div>
 

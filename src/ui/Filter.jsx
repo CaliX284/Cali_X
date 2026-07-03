@@ -2,12 +2,11 @@ import { useSearchParams } from "react-router-dom";
 import ButtonFilter from "./ButtonFilter";
 import SelectFilter from "./SelectFilter";
 
-function Filter({ values, nameFilter }) {
+function Filter({ values, nameFilter, defaultValue = ["all", "all"] }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [activeField, activeValue = ""] = searchParams
-    .get(nameFilter)
-    ?.split(":") ?? ["all", "all"];
+  const [activeField, activeValue = ""] =
+    searchParams.get(nameFilter)?.split(":") ?? defaultValue;
 
   function handleFilterChange(field, value) {
     searchParams.set(nameFilter, `${field}:${value}`);

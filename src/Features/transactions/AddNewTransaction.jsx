@@ -7,7 +7,7 @@ function AddNewTransaction() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>اضافه عمليه مصرفيه</Button>
+      <Button onClick={() => setIsOpen(true)}>اضافه معامله +</Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <TransactionForm />
       </Modal>

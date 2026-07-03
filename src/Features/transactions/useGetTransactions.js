@@ -8,6 +8,10 @@ export function useGetTransactions() {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
+  //[0] filter for period
+  const period = searchParams.get("period") ?? "period:30";
+  const thePeriod = period.split(":")[1];
+
   //[1] filter
   const filter = searchParams.get("transactions") ?? "all:all";
   const [filterField, filterValue] = filter.split(":");
@@ -40,9 +44,9 @@ export function useGetTransactions() {
     error,
     isPlaceholderData,
   } = useQuery({
-    queryKey: ["transactions", page, filter, sortBy],
+    queryKey: ["transactions", page, filter, sortBy , thePeriod],
     queryFn: () =>
-      getTransactions(page, PAGE_SIZE_TRANSACTIONS, theFilter, theSort),
+      getTransactions(page, PAGE_SIZE_TRANSACTIONS, theFilter, theSort , thePeriod),
     staleTime: 1000 * 60 * 5,
     placeholderData: (previousData) => previousData,
   });
@@ -56,9 +60,9 @@ export function useGetTransactions() {
     if (page >= pageCount) return;
 
     queryClient.prefetchQuery({
-      queryKey: ["transactions", page + 1, filter, sortBy],
+      queryKey: ["transactions", page + 1, filter, sortBy , thePeriod],
       queryFn: () =>
-        getTransactions(page + 1, PAGE_SIZE_TRANSACTIONS, theFilter, theSort),
+        getTransactions(page + 1, PAGE_SIZE_TRANSACTIONS, theFilter, theSort , thePeriod),
       staleTime: 1000 * 60 * 5,
     });
   }, [
@@ -70,6 +74,7 @@ export function useGetTransactions() {
     isPlaceholderData,
     sortBy,
     theSort,
+    thePeriod
   ]);
 
   return { transactions, count, isLoading, error };

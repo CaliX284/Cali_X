@@ -67,7 +67,7 @@ function CaptainInfoCart({ captain }) {
             <div className="mb-4 flex items-center justify-between">
               <FaMoneyBillWave className="text-3xl text-green-600" />
               <span className="text-xs font-medium text-green-600">
-                الإيرادات
+                الإيرادات اخر 30 يوم
               </span>
             </div>
 
@@ -81,7 +81,7 @@ function CaptainInfoCart({ captain }) {
             <div className="mb-4 flex items-center justify-between">
               <FaHandHoldingUsd className="text-3xl text-orange-600" />
               <span className="text-xs font-medium text-orange-600">
-                نصيب المدرب
+                نصيب المدرب اخر 30 يوم
               </span>
             </div>
 
@@ -90,7 +90,7 @@ function CaptainInfoCart({ captain }) {
             </h3>
 
             <p className="mt-2 text-sm text-gray-500">
-              ({captain.captain_percentage}%)
+              ({captain.captain_percentage}%) النسبه الحاليه
             </p>
           </div>
 
@@ -99,16 +99,16 @@ function CaptainInfoCart({ captain }) {
             <div className="mb-4 flex items-center justify-between">
               <FaWarehouse className="text-3xl text-purple-600" />
               <span className="text-xs font-medium text-purple-600">
-                نصيب الصالة
+                نصيب الصالة اخر 30 يوم
               </span>
             </div>
 
             <h3 className="text-3xl font-bold text-gray-800">
-              {captain.gym_share} ج.م
+              {captain.gym_share} ج.م 
             </h3>
 
             <p className="mt-2 text-sm text-gray-500">
-              ({captain.gym_percentage}%)
+              ({captain.gym_percentage}%) النسبه الحاليه 
             </p>
           </div>
         </div>

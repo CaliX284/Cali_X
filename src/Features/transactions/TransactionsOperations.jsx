@@ -31,6 +31,7 @@ function TransactionsOperations() {
       />
 
       <Filter
+      defaultValue={["all" , "all"]}
         nameFilter="transactions"
         values={[
           { label: "الكل", value: "all", field: "all" },

@@ -1,5 +1,4 @@
-[1]captain-states::
-DROP VIEW IF EXISTS captain_stats;
+[1]captain-states::DROP VIEW IF EXISTS captain_stats;
 
 CREATE VIEW captain_stats AS
 SELECT
@@ -9,33 +8,35 @@ SELECT
     c.subscription_price,
     c.notes,
 
-    COUNT(m.id) AS members_count,
+    COALESCE(m.members_count, 0) AS members_count,
 
-    COALESCE(SUM(m.paid_amount), 0) AS total_revenue,
+    COALESCE(t.total_revenue, 0) AS total_revenue,
+    COALESCE(t.gym_share, 0) AS gym_share,
+    COALESCE(t.captain_share, 0) AS captain_share,
 
     s.percentage AS gym_percentage,
-
-    (100 - s.percentage) AS captain_percentage,
-
-    COALESCE(SUM(m.paid_amount), 0) * s.percentage / 100 AS gym_share,
-
-    COALESCE(SUM(m.paid_amount), 0) * (100 - s.percentage) / 100 AS captain_share
+    (100 - s.percentage) AS captain_percentage
 
 FROM captains c
-
-LEFT JOIN members m
-ON c.id = m.captain_id
-
 CROSS JOIN settings s
-
-GROUP BY
-    c.id,
-    c.full_name,
-    c.phone,
-    c.subscription_price,
-    c.notes,
-    s.percentage;
-
+LEFT JOIN (
+    SELECT
+        captain_id,
+        COUNT(*) AS members_count
+    FROM members
+    GROUP BY captain_id
+) m ON m.captain_id = c.id
+LEFT JOIN (
+    SELECT
+        captain_id,
+        SUM(amount_paid) AS total_revenue,
+        SUM(gym_amount) AS gym_share,
+        SUM(captain_amount) AS captain_share
+    FROM transactions
+    WHERE direction = 'income'
+      AND paid_at >= CURRENT_DATE - INTERVAL '30 days'
+    GROUP BY captain_id
+) t ON t.captain_id = c.id;
 
 [2] member
 
@@ -119,3 +120,57 @@ SELECT
     END AS status_color
 
 FROM members m;
+
+
+
+[3] for transactions stat card
+
+
+CREATE FUNCTION get_transaction_stats(period_days text)
+RETURNS TABLE (
+    income real,
+    expense real,
+    profit real,
+    transactions_count bigint
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    from_date timestamp;
+BEGIN
+
+    IF period_days = 'all' THEN
+
+        RETURN QUERY
+        SELECT
+            COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)::real,
+            COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)::real,
+            (
+                COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)
+                -
+                COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)
+            )::real,
+            COUNT(*)
+        FROM transactions;
+
+    ELSE
+
+        from_date := CURRENT_DATE - (period_days::int - 1);
+
+        RETURN QUERY
+        SELECT
+            COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)::real,
+            COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)::real,
+            (
+                COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)
+                -
+                COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)
+            )::real,
+            COUNT(*)
+        FROM transactions
+        WHERE paid_at >= from_date;
+
+    END IF;
+
+END;
+$$;
