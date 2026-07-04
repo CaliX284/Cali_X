@@ -160,6 +160,7 @@ captain_stats
 RBC:
 get_transaction_stats
 get_dashboard_stats
+get_dashboard_chart
 
 
 

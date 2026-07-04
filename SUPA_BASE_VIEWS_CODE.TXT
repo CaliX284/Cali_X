@@ -387,6 +387,67 @@ BEGIN
 END;
 $$;
 
+
+// get dashboard get_dashboard_chart
+
+CREATE OR REPLACE FUNCTION get_dashboard_chart(
+    year_input integer DEFAULT EXTRACT(YEAR FROM CURRENT_DATE)::integer
+)
+RETURNS TABLE (
+    month integer,
+    income real,
+    expense real,
+    captains_amount real,
+    net_profit real
+)
+LANGUAGE sql
+AS $$
+WITH months AS (
+    SELECT generate_series(1, 12) AS month
+)
+
+SELECT
+    m.month,
+
+    COALESCE(
+        SUM(t.amount_paid)
+        FILTER (WHERE t.direction = 'income'),
+        0
+    )::real AS income,
+
+    COALESCE(
+        SUM(t.amount_paid)
+        FILTER (WHERE t.direction = 'expense'),
+        0
+    )::real AS expense,
+
+    COALESCE(
+        SUM(t.captain_amount),
+        0
+    )::real AS captains_amount,
+
+    (
+        COALESCE(SUM(t.gym_amount), 0)
+        -
+        COALESCE(
+            SUM(t.amount_paid)
+            FILTER (WHERE t.direction = 'expense'),
+            0
+        )
+    )::real AS net_profit
+
+FROM months m
+
+LEFT JOIN transactions t
+    ON EXTRACT(YEAR FROM t.paid_at) = year_input
+   AND EXTRACT(MONTH FROM t.paid_at) = m.month
+
+GROUP BY m.month
+ORDER BY m.month;
+$$;
+
+
+
 [4] indexes
 
 -- Dashboard
