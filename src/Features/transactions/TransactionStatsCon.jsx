@@ -46,7 +46,7 @@ function TransactionStatsCon() {
       <StatCard
         icon={<MdOutlineShowChart />}
         value={`${formatCurrency(profit)}`}
-        label="صافي الايراد"
+        label="صافي الربح"
         iconColor="text-purple-600"
         iconBg="bg-purple-100"
       />

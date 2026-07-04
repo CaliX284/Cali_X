@@ -32,7 +32,8 @@ function TransactionForm({ onClose }) {
     const newTransaction = {
       member_id: null,
       captain_id: null,
-
+      gym_amount: data.direction === "income" ? Number(data.amount_paid) : 0,
+      captain_amount: 0,
       type_transaction: "manual",
 
       direction: data.direction, // income | expense

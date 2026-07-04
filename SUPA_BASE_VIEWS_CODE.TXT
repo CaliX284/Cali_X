@@ -124,12 +124,14 @@ FROM members m;
 
 
 [3] for transactions stat card
-
+DROP FUNCTION IF EXISTS get_transaction_stats(text);
 
 CREATE FUNCTION get_transaction_stats(period_days text)
 RETURNS TABLE (
     income real,
     expense real,
+    gym_income real,
+    captains_income real,
     profit real,
     transactions_count bigint
 )
@@ -143,14 +145,40 @@ BEGIN
 
         RETURN QUERY
         SELECT
-            COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)::real,
-            COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)::real,
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN amount_paid
+                ELSE 0
+            END), 0)::real AS income,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'expense' THEN amount_paid
+                ELSE 0
+            END), 0)::real AS expense,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN gym_amount
+                ELSE 0
+            END), 0)::real AS gym_income,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN captain_amount
+                ELSE 0
+            END), 0)::real AS captains_income,
+
             (
-                COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)
+                COALESCE(SUM(CASE
+                    WHEN direction = 'income' THEN gym_amount
+                    ELSE 0
+                END), 0)
                 -
-                COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)
-            )::real,
+                COALESCE(SUM(CASE
+                    WHEN direction = 'expense' THEN amount_paid
+                    ELSE 0
+                END), 0)
+            )::real AS profit,
+
             COUNT(*)
+
         FROM transactions;
 
     ELSE
@@ -159,14 +187,40 @@ BEGIN
 
         RETURN QUERY
         SELECT
-            COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)::real,
-            COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)::real,
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN amount_paid
+                ELSE 0
+            END), 0)::real AS income,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'expense' THEN amount_paid
+                ELSE 0
+            END), 0)::real AS expense,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN gym_amount
+                ELSE 0
+            END), 0)::real AS gym_income,
+
+            COALESCE(SUM(CASE
+                WHEN direction = 'income' THEN captain_amount
+                ELSE 0
+            END), 0)::real AS captains_income,
+
             (
-                COALESCE(SUM(CASE WHEN direction = 'income' THEN amount_paid ELSE 0 END), 0)
+                COALESCE(SUM(CASE
+                    WHEN direction = 'income' THEN gym_amount
+                    ELSE 0
+                END), 0)
                 -
-                COALESCE(SUM(CASE WHEN direction = 'expense' THEN amount_paid ELSE 0 END), 0)
-            )::real,
+                COALESCE(SUM(CASE
+                    WHEN direction = 'expense' THEN amount_paid
+                    ELSE 0
+                END), 0)
+            )::real AS profit,
+
             COUNT(*)
+
         FROM transactions
         WHERE paid_at >= from_date;
 
@@ -177,7 +231,6 @@ $$;
 
 
 [3] Dashboard stats card
-
 
 DROP FUNCTION IF EXISTS get_dashboard_stats(text);
 
@@ -254,9 +307,7 @@ BEGIN
                 ),
                 0
             )
-
             -
-
             COALESCE(
                 (
                     SELECT SUM(amount_paid)
@@ -269,7 +320,6 @@ BEGIN
                 ),
                 0
             )
-
         )::DOUBLE PRECISION,
 
         -------------------------------------------------
@@ -321,7 +371,7 @@ BEGIN
         (
             SELECT COUNT(*)
             FROM members
-            WHERE subscription_end_date < CURRENT_DATE
+            WHERE subscription_end_date <= CURRENT_DATE
         ),
 
         -------------------------------------------------
@@ -330,13 +380,12 @@ BEGIN
         (
             SELECT COUNT(*)
             FROM members
-            WHERE subscription_end_date >= CURRENT_DATE
+            WHERE subscription_end_date > CURRENT_DATE
               AND subscription_end_date <= CURRENT_DATE + soon_days
         );
 
 END;
 $$;
-
 
 [4] indexes
 
