@@ -3,10 +3,12 @@ export function formatCurrency(value, fractionDigits = 0) {
 
   if (!Number.isFinite(amount)) return "0";
 
-  return amount.toLocaleString("en-US", {
+  const formatted = Math.abs(amount).toLocaleString("en-US", {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
+
+  return amount < 0 ? `\u2066-${formatted}\u2069` : `\u2066${formatted}\u2069`;
 }
 // utils/formatDateForDB.js
 

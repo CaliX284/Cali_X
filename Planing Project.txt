@@ -157,11 +157,9 @@ members_view
 captain_stats
 
 
-RBC
+RBC:
 get_transaction_stats
-
-
-
+get_dashboard_stats
 
 
 

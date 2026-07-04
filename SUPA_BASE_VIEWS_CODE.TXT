@@ -336,3 +336,30 @@ BEGIN
 
 END;
 $$;
+
+
+[4] indexes
+
+-- Dashboard
+CREATE INDEX IF NOT EXISTS idx_transactions_direction_paid_at
+ON transactions(direction, paid_at);
+
+-- Member Transactions
+CREATE INDEX IF NOT EXISTS idx_transactions_member_paid_at
+ON transactions(member_id, paid_at DESC);
+
+-- Captain Transactions
+CREATE INDEX IF NOT EXISTS idx_transactions_captain_paid_at
+ON transactions(captain_id, paid_at DESC);
+
+-- Members
+CREATE INDEX IF NOT EXISTS idx_members_subscription_end
+ON members(subscription_end_date);
+
+CREATE INDEX IF NOT EXISTS idx_members_captain
+ON members(captain_id);
+
+
+-- Sessions
+CREATE INDEX IF NOT EXISTS idx_sessions_captain_date
+ON sessions(captain_id, date);
