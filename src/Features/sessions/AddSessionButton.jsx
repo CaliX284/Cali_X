@@ -18,7 +18,7 @@ function AddSessionButton() {
   return (
     <>
       <Button onClick={() => setIsOpen(true)} size="big">
-        + اضافه حصه
+        اضافه حصه +
       </Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SessionForm
