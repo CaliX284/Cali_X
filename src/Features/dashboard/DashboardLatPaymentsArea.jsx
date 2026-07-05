@@ -6,7 +6,7 @@ import { useLatestTransactions } from "../transactions/useLatestTransactions";
 
 function DashboardLatPaymentsArea() {
   const { latestTransactions, isLoading, error } = useLatestTransactions();
-  console.log(latestTransactions);
+  // console.log(latestTransactions);
   if (isLoading) return <Spinner />;
   if (error) return <Error />;
   return (

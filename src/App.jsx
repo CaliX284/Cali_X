@@ -10,8 +10,9 @@ import CaptainDetails from "./pages/CaptainDetails";
 import Transactions from "./pages/Transactions";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
-
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
           <Route
             element={
               <SideProvider>
-                <AppLayout />
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
               </SideProvider>
             }
           >
@@ -36,6 +39,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
 

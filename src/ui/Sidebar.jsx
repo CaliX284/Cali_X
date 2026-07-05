@@ -2,7 +2,11 @@ import TheNavigation from "./TheNavigation";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { useSideBar } from "../context/SidebarContext";
 import { useEffect } from "react";
+import { useGetSettings } from "../Features/settings/useGetSettings";
 function Sidebar() {
+  const { settings } = useGetSettings();
+  const gymName = settings?.gym_name ?? "";
+
   const { isOpenSide, setIsOpenSide } = useSideBar();
 
   useEffect(() => {
@@ -28,7 +32,7 @@ function Sidebar() {
           alt="logo"
         />
         <div className="flex flex-col">
-          <h5 className="text-[13px] font-bold">Cali_X</h5>
+          <h5 className="text-[13px] font-bold">{gymName ? gymName : ""}</h5>
           <p className="text-[10px] text-stone-400">الحوامديه</p>
         </div>
 
