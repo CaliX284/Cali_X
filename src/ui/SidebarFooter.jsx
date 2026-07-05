@@ -2,7 +2,7 @@ import { CiLogin } from "react-icons/ci";
 
 function SidebarFooter() {
   return (
-    <div className="mt-6 flex items-center justify-between">
+    <div className="mt-7 flex items-center justify-between border-t border-orange-500 pb-5 pt-6 rounded-sm">
       <div className="flex items-center gap-3">
         <img
           className="h-6 w-6 rounded-full"

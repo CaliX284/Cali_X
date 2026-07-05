@@ -131,3 +131,27 @@ export async function getTransactionStats(period) {
 
   return data[0];
 }
+
+// to get the latest transactions
+
+export async function getLatestTransactions(limit = 5) {
+  const { data, error } = await supabase
+    .from("transactions")
+    .select(`
+      *,
+      members (
+        id,
+        full_name
+      ),
+      captains (
+        id,
+        full_name
+      )
+    `)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+
+  return data;
+}
