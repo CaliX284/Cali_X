@@ -447,6 +447,39 @@ ORDER BY m.month;
 $$;
 
 
+[payments chart] 
+
+DROP FUNCTION IF EXISTS get_members_payment_status();
+
+CREATE FUNCTION get_members_payment_status()
+RETURNS TABLE (
+    total_members bigint,
+    paid_count bigint,
+    due_count bigint,
+    expired_count bigint
+)
+LANGUAGE sql
+STABLE
+AS $$
+SELECT
+    COUNT(*) AS total_members,
+
+    COUNT(*) FILTER (
+        WHERE remaining_amount = 0
+          AND subscription_end_date > CURRENT_DATE
+    ) AS paid_count,
+
+    COUNT(*) FILTER (
+        WHERE remaining_amount > 0
+    ) AS due_count,
+
+    COUNT(*) FILTER (
+        WHERE remaining_amount = 0
+          AND subscription_end_date <= CURRENT_DATE
+    ) AS expired_count
+
+FROM members;
+$$;
 
 [4] indexes
 

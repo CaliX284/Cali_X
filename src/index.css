@@ -66,3 +66,13 @@ body {
 .react-datepicker__triangle {
   display: none;
 }
+
+
+/* for monthes chart */
+
+.recharts-wrapper:focus,
+.recharts-surface:focus,
+.recharts-layer:focus,
+.recharts-layer:focus-visible {
+  outline: none !important;
+}

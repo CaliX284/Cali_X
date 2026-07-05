@@ -46,7 +46,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`h-navbar fixed top-0 right-0 flex w-full items-center justify-between gap-3 border-b border-stone-300 bg-white px-3 py-2 duration-300 sm:justify-start`}
+      className={`h-navbar fixed top-0 right-0 flex w-full items-center justify-between gap-3 border-b border-stone-300 bg-white px-3 py-2 duration-300 sm:justify-start z-[10000]` }
     >
       <img className="block w-[25px]" src="default-user.jpg" alt="user_photo" />
       <h4 className="font text-[18px] font-bold">{currentPage}</h4>

@@ -23,11 +23,9 @@ const MONTHS = [
   "ديسمبر",
 ];
 
-const formatNumber = (value) =>
-  Number(value || 0).toLocaleString("en-US");
+const formatNumber = (value) => Number(value || 0).toLocaleString("en-US");
 
-const formatCurrency = (value) =>
-  `${formatNumber(value)} ج.م`;
+const formatCurrency = (value) => `${formatNumber(value)} ج.م`;
 
 function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -35,18 +33,7 @@ function CustomTooltip({ active, payload }) {
   const data = payload[0].payload;
 
   return (
-    <div
-      className="
-        w-[220px]
-        rounded-2xl
-        border
-        border-orange-100
-        bg-white/95
-        backdrop-blur
-        p-4
-        shadow-xl
-      "
-    >
+    <div className="w-[220px] rounded-2xl border border-orange-100 bg-white/95 p-4 shadow-xl backdrop-blur">
       <h3 className="mb-3 border-b border-orange-100 pb-2 text-right text-sm font-bold text-orange-600">
         {data.monthName}
       </h3>
@@ -95,7 +82,7 @@ export default function DashboardAreaChart({ data }) {
   }));
 
   return (
-    <div className="w-full min-w-0 rounded-2xl border border-orange-100 bg-white p-3 sm:p-5 shadow-sm">
+    <div className="w-full min-w-0 rounded-2xl border border-orange-100 bg-white p-3 shadow-sm sm:p-5">
       <h2 className="mb-4 text-base font-bold text-gray-800 sm:text-lg">
         الأداء الشهري
       </h2>
@@ -118,24 +105,10 @@ export default function DashboardAreaChart({ data }) {
             }}
           >
             <defs>
-              <linearGradient
-                id="orangeGradient"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="0%"
-                  stopColor="#F97316"
-                  stopOpacity={0.45}
-                />
+              <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#F97316" stopOpacity={0.45} />
 
-                <stop
-                  offset="100%"
-                  stopColor="#F97316"
-                  stopOpacity={0.03}
-                />
+                <stop offset="100%" stopColor="#F97316" stopOpacity={0.03} />
               </linearGradient>
             </defs>
 

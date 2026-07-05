@@ -20,3 +20,13 @@ export async function getDashboardChart(year = new Date().getFullYear()) {
 
   return data;
 }
+
+// to get payments stats in dashboard
+
+export async function getPaymentsStats() {
+  const { data, error } = await supabase.rpc("get_members_payment_status", {});
+
+  if (error) throw error;
+
+  return data;
+}
