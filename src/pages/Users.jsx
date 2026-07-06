@@ -1,4 +1,5 @@
 import AddNewUser from "../Features/authentication/AddNewUser";
+import UpdateUserArea from "../Features/authentication/UpdateUserArea";
 
 function Users() {
   return (
@@ -12,6 +13,8 @@ function Users() {
         </div>
         <AddNewUser />
       </div>
+
+      <UpdateUserArea />
     </div>
   );
 }
