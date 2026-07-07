@@ -56,6 +56,7 @@ function Search({ placeHolder, field }) {
           onClick={() => handleCancel()}
           type={"button"}
           design={"secondary"}
+          disabled={!isActive}
         >
           {"مسح "}
         </Button>
