@@ -1,32 +1,18 @@
-import { lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { SideProvider } from "./context/SidebarContext";
 import AppLayout from "./ui/AppLayout";
+import Dashboard from "./pages/Dashboard";
+import Members from "./pages/Members";
+import MemberDetails from "./pages/MemberDetails";
+import CaptainsPage from "./pages/CaptainsPage";
+import CaptainDetails from "./pages/CaptainDetails";
+import Transactions from "./pages/Transactions";
+import Users from "./pages/Users";
+import Settings from "./pages/Settings";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./ui/ProtectedRoute";
-// import Spinner from "./ui/Spinner";
-
-// import Dashboard from "./pages/Dashboard";
-// import Members from "./pages/Members";
-// import MemberDetails from "./pages/MemberDetails";
-// import CaptainsPage from "./pages/CaptainsPage";
-// import CaptainDetails from "./pages/CaptainDetails";
-// import Transactions from "./pages/Transactions";
-// import Users from "./pages/Users";
-// import Settings from "./pages/Settings";
-// import Login from "./pages/Login";
-// import NotFound from "./pages/NotFound";
-
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Members = lazy(() => import("./pages/Members"));
-const MemberDetails = lazy(() => import("./pages/MemberDetails"));
-const CaptainsPage = lazy(() => import("./pages/CaptainsPage"));
-const CaptainDetails = lazy(() => import("./pages/CaptainDetails"));
-const Transactions = lazy(() => import("./pages/Transactions"));
-const Users = lazy(() => import("./pages/Users"));
-const Settings = lazy(() => import("./pages/Settings"));
-const Login = lazy(() => import("./pages/Login"));
-const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
