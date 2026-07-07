@@ -20,6 +20,9 @@ export function usePayBackMember() {
       queryClient.invalidateQueries({
         queryKey: ["captain-members", String(data.captain_id)],
       });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["transaction-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
     },
 
     onError: (err) => {

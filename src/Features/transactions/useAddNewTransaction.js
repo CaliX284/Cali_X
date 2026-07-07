@@ -8,6 +8,8 @@ export function useAddNewTransaction() {
     mutationFn: (newTransaction) => createTransaction(newTransaction),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["transaction-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
       toast.success("تمت إضافة العملية بنجاح");
     },
     onError: (error) => {
