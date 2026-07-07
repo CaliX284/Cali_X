@@ -11,7 +11,10 @@ function MemberOperations() {
   return (
     <div className="my-7">
       <div className="mb-4">
-        <Search placeHolder="البحث بي الاسم ...." field={"full_name"} />
+        <Search
+          placeHolder="البحث بي الاسم او برقم الهويه ..."
+          field={"full_name"}
+        />
       </div>
 
       <div className="rounded-xl bg-white px-1.5 py-4">

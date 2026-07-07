@@ -8,26 +8,21 @@ function Search({ placeHolder, field }) {
     () => searchParams.get("search")?.split(":")[1] || "",
   );
 
-  const isActive = searchParams.has("search");
+  const isActive = searchParams.get("search") ?? false;
 
-  // if search
   function handleSearch(value) {
     if (value.trim() === "") return false;
-
-    searchParams.set("page", 1);
-    searchParams.set("search", `${field}:${value}`);
-    setSearchParams(searchParams);
-  }
-
-  function handleCancel() {
-    if (isActive) {
+    if (!isActive) {
+      searchParams.set("page", 1);
+      searchParams.set("search", `${field}:${value}`);
+      setSearchParams(searchParams);
+    } else {
       searchParams.delete("search");
       setSearchParams(searchParams);
       setSearchValue("");
     }
   }
 
-  // when submit
   function handleSubmit(e) {
     e.preventDefault();
     handleSearch(searchValue);
@@ -47,19 +42,9 @@ function Search({ placeHolder, field }) {
         placeholder={placeHolder}
         className="w-62 rounded-2xl border-orange-500 bg-stone-300 px-3 py-2 ring-orange-500 outline-0 duration-200 focus:ring-1 sm:w-[300px] md:w-[350px]"
       />
-      <div className="flex items-center gap-1">
-        <Button type={"submit"} design={"primary"}>
-          {"ابحث"}
-        </Button>
-
-        <Button
-          onClick={() => handleCancel()}
-          type={"button"}
-          design={"secondary"}
-        >
-          {"مسح "}
-        </Button>
-      </div>
+      <Button type={"submit"} design={isActive ? "secondary" : "primary"}>
+        {isActive ? "الغاء البحث" : "ابحث"}
+      </Button>
     </form>
   );
 }

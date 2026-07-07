@@ -2,6 +2,7 @@ import Spinner from "../../ui/Spinner";
 import Error from "../../ui/Error";
 import CaptainBox from "./CaptainBox";
 import { useCaptainStats } from "./useCaptainState";
+import CaptainsOperations from "./CaptainsOperations";
 
 function CaptainsArea() {
   const { captainStats, isPending, error } = useCaptainStats();
@@ -10,11 +11,14 @@ function CaptainsArea() {
 
   if (error) return <Error />;
   return (
-    <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-      {captainStats.map((captain) => (
-        <CaptainBox key={captain.id} captain={captain} />
-      ))}
-    </div>
+    <>
+      <CaptainsOperations />
+      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {captainStats.map((captain) => (
+          <CaptainBox key={captain.id} captain={captain} />
+        ))}
+      </div>
+    </>
   );
 }
 

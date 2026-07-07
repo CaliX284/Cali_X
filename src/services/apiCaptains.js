@@ -2,8 +2,23 @@ import { supabase } from "./supabase";
 
 // get captains state form viwe table which calc everything form the sql
 
-export async function getCaptainStats() {
-  const { data, error } = await supabase.from("captain_stats").select("*");
+export async function getCaptainStats(theSearch) {
+  let query = supabase.from("captain_stats").select("*");
+
+  // Search
+  if (theSearch) {
+    const value = theSearch.value.trim();
+
+    if (/^\d+$/.test(value)) {
+      // البحث برقم الهوية
+      query = query.eq("id", Number(value));
+    } else {
+      // البحث بالاسم
+      query = query.ilike("full_name", `%${value}%`);
+    }
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
 

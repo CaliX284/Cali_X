@@ -46,10 +46,15 @@ export async function getAllMembersView(
 
   // [2] search
   if (theSearch) {
-    query = query[theSearch.method || "ilike"](
-      theSearch.field,
-      `%${theSearch.value}%`,
-    );
+    const value = theSearch.value.trim();
+
+    if (/^\d+$/.test(value)) {
+      // لو المستخدم كتب رقم -> ابحث بالـ ID
+      query = query.eq("id", Number(value));
+    } else {
+      // لو كتب نص -> ابحث بالاسم
+      query = query.ilike("full_name", `%${value}%`);
+    }
   }
 
   //[3] sorting
