@@ -24,7 +24,7 @@ function DeleteMember({ member, inDetailsPage }) {
 
   return (
     <>
-      <Button design={"delete"} onClick={() => setIsOpen(true)}>
+      <Button design={"delete"} onClick={() => setIsOpen(true)} size="small">
         <FaTrash className="mx-auto text-stone-200" />
       </Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>

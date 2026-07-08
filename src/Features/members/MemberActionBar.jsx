@@ -7,10 +7,12 @@ import MemberViewDetails from "./MEMBERS_ACTIONS/MemberViewDetails";
 
 function MemberActionBar({ member, inDetailsPage = false }) {
   return (
-    <div className="border-t pt-4">
-      <h3 className="mb-3 text-sm font-semibold text-slate-600">الإجراءات</h3>
+    <div className="pt-4">
+      {inDetailsPage && (
+        <h3 className="my-4 text-[18px] font-bold text-slate-600">الإجراءات</h3>
+      )}
 
-      <div className="grid max-w-3xl grid-cols-6 gap-1">
+      <div className="flex items-center gap-1">
         {!inDetailsPage && <MemberViewDetails id={member.id} />}
         {member.has_remaining && <HasRemaining member={member} />}
 
@@ -20,7 +22,9 @@ function MemberActionBar({ member, inDetailsPage = false }) {
 
         <EditMemberData member={member} />
 
-        <DeleteMember member={member} inDetailsPage={inDetailsPage} />
+        {inDetailsPage && (
+          <DeleteMember member={member} inDetailsPage={inDetailsPage} />
+        )}
       </div>
     </div>
   );

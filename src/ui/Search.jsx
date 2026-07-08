@@ -8,7 +8,7 @@ function Search({ placeHolder, field }) {
     () => searchParams.get("search")?.split(":")[1] || "",
   );
 
-  const isActive = searchParams.has("search");
+  // const isActive = searchParams.has("search");
 
   // if search
   function handleSearch(value) {
@@ -20,10 +20,10 @@ function Search({ placeHolder, field }) {
   }
 
   function handleCancel() {
-      searchParams.delete("search");
-      setSearchParams(searchParams);
-      setSearchValue("");
-
+    searchParams.set("page", "1");
+    searchParams.delete("search");
+    setSearchParams(searchParams);
+    setSearchValue("");
   }
 
   // when submit
@@ -44,7 +44,7 @@ function Search({ placeHolder, field }) {
         }}
         type="text"
         placeholder={placeHolder}
-        className=" rounded-2xl border-orange-500 bg-stone-300 px-3 py-2 ring-orange-500 outline-0 duration-200 focus:ring-1 h-11 sm:h-13"
+        className="h-11 rounded-2xl border-orange-500 bg-stone-300 px-3 py-2 ring-orange-500 outline-0 duration-200 focus:ring-1 sm:h-13"
       />
       <div className="flex items-center justify-between">
         <Button type={"submit"} design={"primary"}>

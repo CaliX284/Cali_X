@@ -8,7 +8,7 @@ function EditMemberData({ member }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>
+      <Button onClick={() => setIsOpen(true)} size="small">
         <FaPen className="mx-auto text-stone-100" />
       </Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>

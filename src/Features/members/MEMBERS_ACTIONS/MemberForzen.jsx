@@ -10,7 +10,7 @@ function MemberForzen({ member }) {
 
   return (
     <>
-      <Button design="cold" onClick={() => setIsOpen(true)}>
+      <Button design="cold" onClick={() => setIsOpen(true)} size="small">
         <FaSnowflake className="mx-auto text-slate-700" />
       </Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>

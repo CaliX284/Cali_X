@@ -6,28 +6,31 @@ function Button({
   size = "normal",
   disabled = false,
 }) {
-  // 1. الكلاسات الثابتة اللي بتطبق على كل الزراير
+  // 1. الكلاسات الثابتة
   const baseStyles =
     "cursor-pointer rounded-2xl font-semibold duration-300 flex items-center gap-1";
 
-  // 2. كلاسات الألوان بناءً على التصميم (الديناميكية)
+  // 2. التصميم
   const designStyles = {
     primary: "bg-orange-500 text-stone-50 hover:bg-orange-700",
     secondary: "bg-stone-200 text-stone-900 hover:bg-stone-400",
     delete: "bg-red-500 text-stone-50 hover:bg-red-700",
-    cold: "bg-blue-400 text-stone-50 hover:bg-blue-300", // ملحوظة: شلت text-shadow-stone-50 لأنه مش كلاس افتراضي في تيلويند إلا لو عامله تخصيص
+    cold: "bg-blue-400 text-stone-50 hover:bg-blue-300",
   };
 
-  // 3. كلاسات الأحجام
-  const sizeStyles =
-    size === "big"
-      ? "text-[18px] sm:text-xl px-4 py-2"
-      : "text-[15px] px-2 py-1.5";
+  // 3. الأحجام
+  const sizeStyles = {
+    small: "text-[11px] px-1.5 py-1 rounded-xl gap-0.5",
+    normal: "text-[15px] px-2 py-1.5",
+    big: "text-[18px] sm:text-xl px-4 py-2",
+  };
 
   return (
     <button
       disabled={disabled}
-      className={`${baseStyles} ${designStyles[design] || designStyles.primary} ${sizeStyles} disabled:*:cursor-not-allowed disabled:opacity-50`}
+      className={`${baseStyles} ${
+        designStyles[design] || designStyles.primary
+      } ${sizeStyles[size] || sizeStyles.normal} disabled:cursor-not-allowed disabled:opacity-50`}
       onClick={onClick}
       type={type || "button"}
     >

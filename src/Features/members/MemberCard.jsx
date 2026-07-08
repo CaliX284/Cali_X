@@ -1,3 +1,5 @@
+//MemberCard.jsx before MemberRow
+
 import {
   FaUser,
   FaPhone,

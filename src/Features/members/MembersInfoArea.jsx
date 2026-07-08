@@ -1,3 +1,6 @@
+///MemberInfoArea.jsx Before the MembersTable
+
+
 import { useGetAllMemberViews } from "./useGetAllMemberViews";
 import Spinner from "../../ui/Spinner";
 import Error from "../../ui/Error";

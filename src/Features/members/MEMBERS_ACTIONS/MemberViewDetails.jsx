@@ -9,7 +9,7 @@ function MemberViewDetails({ id }) {
   }
 
   return (
-    <Button design="secondary" onClick={() => handleNavigate(id)}>
+    <Button size={"small"} design="secondary" onClick={() => handleNavigate(id)}>
       <FaEye className="mx-auto text-slate-700" />
     </Button>
   );

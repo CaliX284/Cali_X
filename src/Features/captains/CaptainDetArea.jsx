@@ -5,7 +5,8 @@ import Spinner from "../../ui/Spinner";
 import Error from "../../ui/Error";
 import AddMemberButton from "../members/AddMemberButton";
 import { useGetCaptainMembers } from "./useGetCaptainMembers";
-import MemberCard from "../members/MemberCard";
+// import MemberCard from "../members/MemberCard";
+import MembersTabel from "../members/MembersTable";
 import Pagination from "../../ui/Pagination";
 import { PAGE_SIZE_CAPTAINS_MEMBERS } from "../../utils/constance";
 
@@ -35,11 +36,18 @@ function CaptainDetArea() {
         <AddMemberButton />
       </div>
       {/* Members Area */}
-      <div className="mt-5 grid grid-cols-1 gap-5 pb-4 md:grid-cols-2 xl:grid-cols-3">
+      {/* <div className="mt-5 grid grid-cols-1 gap-5 pb-4 md:grid-cols-2 xl:grid-cols-3">
+        
         {captainMembers?.map((member) => (
           <MemberCard key={member.id} member={member} />
         ))}
-      </div>
+      </div> */}
+      <MembersTabel
+        membersViews={captainMembers}
+        members_count={captainMembersCount}
+        loading={isLoading}
+        error={error}
+      />
       <Pagination
         count={captainMembersCount}
         pageSize={PAGE_SIZE_CAPTAINS_MEMBERS}
