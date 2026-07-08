@@ -1,3 +1,3 @@
 export const PAGE_SIZE_TRANSACTIONS = 10;
 export const PAGE_SIZE_MEMBERS = 10;
-export const PAGE_SIZE_CAPTAINS_MEMBERS = 7;
+export const PAGE_SIZE_CAPTAINS_MEMBERS = 10;
