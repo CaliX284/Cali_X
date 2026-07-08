@@ -1,11 +1,11 @@
 // import { useGetAllMemberViews } from "./useGetAllMemberViews";
 import Spinner from "../../ui/Spinner";
 import Error from "../../ui/Error";
-import Pagination from "../../ui/Pagination";
+// import Pagination from "../../ui/Pagination";
 import MemberRow from "./MemberRow";
-import { PAGE_SIZE_MEMBERS } from "../../utils/constance";
+// import { PAGE_SIZE_MEMBERS } from "../../utils/constance";
 
-function MembersTable({membersViews , loading , members_count , error}) {
+function MembersTable({membersViews , loading , error}) {
   
 
   if (loading) return <Spinner />;
@@ -47,9 +47,9 @@ function MembersTable({membersViews , loading , members_count , error}) {
         </table>
       </div>
 
-      <div className="border-t border-slate-200 px-3 py-2">
+      {/* <div className="border-t border-slate-200 px-3 py-2">
         <Pagination count={members_count} pageSize={PAGE_SIZE_MEMBERS} />
-      </div>
+      </div> */}
     </div>
   );
 }
