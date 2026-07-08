@@ -20,11 +20,10 @@ function Search({ placeHolder, field }) {
   }
 
   function handleCancel() {
-    if (isActive) {
       searchParams.delete("search");
       setSearchParams(searchParams);
       setSearchValue("");
-    }
+
   }
 
   // when submit
@@ -36,7 +35,7 @@ function Search({ placeHolder, field }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center justify-between gap-2 rounded-xl bg-white px-2 py-4"
+      className="flex flex-col gap-3 rounded-xl bg-white px-2 py-4"
     >
       <input
         value={searchValue}
@@ -45,9 +44,9 @@ function Search({ placeHolder, field }) {
         }}
         type="text"
         placeholder={placeHolder}
-        className="w-62 rounded-2xl border-orange-500 bg-stone-300 px-3 py-2 ring-orange-500 outline-0 duration-200 focus:ring-1 sm:w-[300px] md:w-[350px]"
+        className=" rounded-2xl border-orange-500 bg-stone-300 px-3 py-2 ring-orange-500 outline-0 duration-200 focus:ring-1 h-11 sm:h-13"
       />
-      <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between">
         <Button type={"submit"} design={"primary"}>
           {"ابحث"}
         </Button>
@@ -56,7 +55,7 @@ function Search({ placeHolder, field }) {
           onClick={() => handleCancel()}
           type={"button"}
           design={"secondary"}
-          disabled={!isActive}
+          // disabled={!isActive}
         >
           {"مسح "}
         </Button>
