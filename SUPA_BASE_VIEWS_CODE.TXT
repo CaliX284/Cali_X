@@ -506,3 +506,4 @@ ON members(captain_id);
 -- Sessions
 CREATE INDEX IF NOT EXISTS idx_sessions_captain_date
 ON sessions(captain_id, date);
+/
